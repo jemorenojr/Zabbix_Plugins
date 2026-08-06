@@ -1,0 +1,1 @@
+/home/edson/Share/Telium/workspace/Zabbix/Plugins/KVM_QEMU/scripts/kvm_qemu_health.py

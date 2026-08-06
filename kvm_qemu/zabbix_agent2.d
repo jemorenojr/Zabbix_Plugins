@@ -1,0 +1,1 @@
+/home/edson/Share/Telium/workspace/Zabbix/Plugins/KVM_QEMU/zabbix_agent2.d
