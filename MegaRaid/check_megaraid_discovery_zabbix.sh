@@ -1,0 +1,1 @@
+/home/edson/Share/Telium/workspace/Zabbix/Plugins/MegaRaid/check_megaraid_discovery_zabbix.sh
