@@ -47,7 +47,7 @@ systemctl restart zabbix-agent2.service
 ```
 Na inetrface GUI do Zabbix Server, importar o template Webserver_SSL_Certificates_Discovery.yaml 
 
-[Gui Importação Zabbix Server](Gui_importacao_template_ssl.png)
+[Gui_importacao_template_ssl.png](https://github.com/jemorenojr/Zabbix_Plugins/blob/ac62b0879eb8fe80db7691f28c61340cedc2ef27/Certificados_SSL/Gui_importacao_template_ssl.png)
 
 ## Configurações 
 
