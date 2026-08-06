@@ -1,0 +1,65 @@
+zabbix_export:
+  version: '7.4'
+  template_groups:
+    - uuid: 9ab083c0c5414b4caa3b0e921f4f582f
+      name: Templates/Hosting
+    - uuid: 34ce309f6a1b49908c9b9e29d404c54d
+      name: Templates/Intranet/Webservers
+  templates:
+    - uuid: 5f4de75cb25b4940b449e7d40ffe7afb
+      template: 'Webserver SSL Certificates Discovery'
+      name: 'Webserver SSL Certificates Discovery'
+      description: 'Retorna lista de certificados ativos na maquinas'
+      groups:
+        - name: Templates/Hosting
+        - name: Templates/Intranet/Webservers
+      discovery_rules:
+        - uuid: 070a30608ceb42778961efd7eb8caf29
+          name: 'Webserver SSL vhosts discovery'
+          key: webserver.ssl.vhosts.discovery
+          delay: 3h
+          enabled_lifetime_type: DISABLE_AFTER
+          enabled_lifetime: 2d
+          item_prototypes:
+            - uuid: 5f060d632d69432292982978bcff27da
+              name: 'SSL certificate days left: {#SSL_VHOST}'
+              type: DEPENDENT
+              key: 'ssl.cert.days.left[{#SSL_VHOST},{#SSL_PORT}]'
+              value_type: FLOAT
+              units: d
+              preprocessing:
+                - type: JAVASCRIPT
+                  parameters:
+                    - |
+                      var cert = JSON.parse(value);
+                      
+                      var valid_to = cert.x509.not_after.timestamp;
+                      var now = Math.floor(Date.now() / 1000);
+                      
+                      return Math.floor((valid_to - now) / 86400);
+              master_item:
+                key: 'web.certificate.get[{#SSL_VHOST},{#SSL_PORT}]'
+              trigger_prototypes:
+                - uuid: d254f495fc444aadb870f275b48c0886
+                  expression: |
+                    last(/Webserver SSL Certificates Discovery/ssl.cert.days.left[{#SSL_VHOST},{#SSL_PORT}])<10
+                    and
+                    last(/Webserver SSL Certificates Discovery/ssl.cert.days.left[{#SSL_VHOST},{#SSL_PORT}])>4
+                  name: 'SSL certificate expiring soon: {#SSL_VHOST}'
+                  priority: WARNING
+                  manual_close: 'YES'
+                - uuid: fff0ae1fcf694062b5fab8a9d3d00fbf
+                  expression: 'last(/Webserver SSL Certificates Discovery/ssl.cert.days.left[{#SSL_VHOST},{#SSL_PORT}])<=4'
+                  name: 'SSL certificate expiring soon: {#SSL_VHOST}'
+                  priority: HIGH
+                  manual_close: 'YES'
+            - uuid: 52451c726f5c42f781371a1fef8fb2a7
+              name: 'SSL certificate raw: {#SSL_VHOST}'
+              key: 'web.certificate.get[{#SSL_VHOST},{#SSL_PORT}]'
+              delay: 12h
+              value_type: TEXT
+      tags:
+        - tag: class
+          value: software
+        - tag: target
+          value: certificate
