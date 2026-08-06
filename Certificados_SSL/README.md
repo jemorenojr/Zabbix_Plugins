@@ -1,6 +1,6 @@
 # Plugin para monitoramento de Certificados de SSL
 
-Este pluigin foi desenvolvido para atender a demanda de monitorar os certificados SSL em um ambiente de multiplos dominios em um unico webserver. 
+Este plugin foi desenvolvido para atender a demanda de monitorar os certificados SSL em um ambiente de multiplos dominios em um unico webserver. 
 
 O plugin faz a varredura nas configurações do Apache e/ou Nginx indentificando os certificados instalados e configura automaticamente na monitoria um dominio ativo na maquina na monitoria do Zabbix
 
@@ -32,7 +32,7 @@ git clone git@github.com:jemorenojr/Zabbix_Plugins.git
 Entrar no diretorio dos arquivos do plugin :
 
 ```
-cd Zabbix_Plugins\Certificados_SSL
+cd Zabbix_Plugins/Certificados_SSL
 sudo install -d /usr/local/zabbix/scripts/
 sudo install -m 755 -o zabbix -D ssl_vhosts_discovery.sh /usr/local/zabbix/scripts/
 sudo install -m 644 -o zabbix -D webserver_ssl_discovery.conf /etc/zabbix/zabbix_agent2.d/plugins.d
