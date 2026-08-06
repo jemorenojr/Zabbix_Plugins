@@ -1,0 +1,1 @@
+/home/edson/Share/Telium/workspace/Zabbix/Plugins/DNS/INSTALACAO.md
